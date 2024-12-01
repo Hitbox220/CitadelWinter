@@ -1,0 +1,7 @@
+name: Citadel Winter
+version: '1.0-SNAPSHOT'
+main: Citadel.citadelWinter.CitadelWinter
+api-version: '1.21'
+prefix: CitadelWinter
+authors: [ Hitbox ]
+description: Winter plugin for Citadel
