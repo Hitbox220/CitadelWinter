@@ -1,7 +1,6 @@
 package Citadel.citadelWinter.classes;
 
 import Citadel.citadelWinter.CitadelWinter;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
@@ -10,16 +9,15 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
-import static Citadel.citadelWinter.CitadelWinter.config;
 import static Citadel.citadelWinter.classes.TemperatureData.*;
 
 public class Temperature {
     public static final NamespacedKey temperatureKey = new NamespacedKey(CitadelWinter.getInstance(), "temperature");
     public static final NamespacedKey thermometerKey = new NamespacedKey(CitadelWinter.getInstance(), "thermometer");
-    public static Map<UUID, Integer> damageTickMap = new HashMap<UUID, Integer>();
-    public static Map<UUID, Integer> heartBeatPlayers = new HashMap<UUID, Integer>();
+    public static Map<UUID, Integer> damageTickMap = new HashMap<>();
+    public static Map<UUID, Integer> heartBeatPlayers = new HashMap<>();
 
-    private static Server server = CitadelWinter.getInstance().getServer();
+    private static final Server server = CitadelWinter.getInstance().getServer();
 
     public static float getPlayerTemperature(Player player){
         return player.getPersistentDataContainer().getOrDefault(temperatureKey, PersistentDataType.FLOAT, defaultTemperature);

@@ -12,7 +12,7 @@ import static Citadel.citadelWinter.classes.Temperature.*;
 import static Citadel.citadelWinter.classes.TemperatureData.*;
 
 public class HeartBeatRunnable extends BukkitRunnable {
-    private static Server server = CitadelWinter.getInstance().getServer();
+    private static final Server server = CitadelWinter.getInstance().getServer();
 
     @Override
     public void run() {

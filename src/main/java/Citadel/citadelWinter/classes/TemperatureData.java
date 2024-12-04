@@ -18,8 +18,7 @@ public class TemperatureData {
     public static int heartTickRate = config.getInt("heartBeat.tickRate");
     public static float volumePerDegree = (float) (
             (config.getDouble("heartBeat.maxVolume") - config.getDouble("heartBeat.minVolume")) / coldAmplitude);
-    public static float periodPerDegree = (float) (
-            (config.getInt("heartBeat.maxPeriod") - config.getInt("heartBeat.minPeriod")) / coldAmplitude);
+    public static float periodPerDegree = (config.getInt("heartBeat.maxPeriod") - config.getInt("heartBeat.minPeriod")) / coldAmplitude;
 
     public static String infoColor      = String.format("<#%s>", config.getString("colors.info"));
     public static String heatColor      = String.format("<#%s>", config.getString("colors.heat"));
@@ -27,6 +26,4 @@ public class TemperatureData {
     public static String defaultColor   = String.format("<#%s>", config.getString("colors.default"));
     public static String coldColor      = String.format("<#%s>", config.getString("colors.cold"));
     public static String freezeColor    = String.format("<#%s>", config.getString("colors.freeze"));
-
-    public static void initialize(){}
 }

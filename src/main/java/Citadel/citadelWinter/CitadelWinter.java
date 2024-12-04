@@ -3,7 +3,7 @@ package Citadel.citadelWinter;
 import Citadel.citadelWinter.commands.TemperatureCommand;
 import Citadel.citadelWinter.commands.TestCommand;
 import Citadel.citadelWinter.events.TestEvent;
-import Citadel.citadelWinter.recipes.TestRecipe;
+import Citadel.citadelWinter.recipes.Recipes;
 import Citadel.citadelWinter.tasks.ColdDamageRunnable;
 import Citadel.citadelWinter.tasks.HeartBeatRunnable;
 import Citadel.citadelWinter.tasks.ManageTemperatureRunnable;
@@ -43,7 +43,7 @@ public final class CitadelWinter extends JavaPlugin {
         new TemperatureCommand();
     }
     private void setRecipes(){
-        new TestRecipe();
+        Recipes.Initialize();
     }
     private void setTasks(){
         ColdDamageRunnable coldDamageRunnable = new ColdDamageRunnable();

@@ -17,16 +17,14 @@ public class TemperatureCommand extends AbstractCommand {
     }
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
-        Player player;
-        try {
-            player = sender.getServer().getPlayer(args[1]);
-        } catch (Exception e){
+        Player player = sender.getServer().getPlayer(args[1]);
+        if (player == null) {
             sender.sendMessage("Не удалось найти игрока!");
             return;
         }
         if (args[0].equalsIgnoreCase("set")){
             try {
-                setPlayerTemperature(player, Float.valueOf(args[2]));
+                setPlayerTemperature(player, Float.parseFloat(args[2]));
             } catch (Exception e){
                 sender.sendMessage("Не удалось задать значение температуры!");
             }

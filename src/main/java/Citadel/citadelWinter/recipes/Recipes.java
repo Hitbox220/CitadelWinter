@@ -16,14 +16,13 @@ import java.util.List;
 
 import static Citadel.citadelWinter.classes.TemperatureData.infoColor;
 
-public class TestRecipe {
+public class Recipes {
     private static final Server server = CitadelWinter.getInstance().getServer();
-    private static ItemStack thermometerItem = new ItemStack(Material.STICK);
-    private static ItemMeta thermometerMeta;
+    private static final ItemStack thermometerItem = new ItemStack(Material.STICK);
     public static NamespacedKey thermometerKey = new NamespacedKey(CitadelWinter.getInstance(), "thermometer");
 
-    public TestRecipe() {
-        thermometerMeta = thermometerItem.getItemMeta();
+    public static void Initialize () {
+        ItemMeta thermometerMeta = thermometerItem.getItemMeta();
         thermometerMeta.getPersistentDataContainer().set(thermometerKey, PersistentDataType.BOOLEAN, true);
         List<Component> lore = new ArrayList<>();
         lore.add(MiniMessage.miniMessage().deserialize(String.format("%sThermometer 3000", infoColor)));
