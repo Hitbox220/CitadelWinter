@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class TestCommand extends Template.template.commands.AbstractCommand {
+public class TestCommand extends AbstractCommand {
     public TestCommand(){
         super("test");
     }

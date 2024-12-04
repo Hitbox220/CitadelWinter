@@ -1,7 +1,6 @@
 package Citadel.citadelWinter.events;
 
 import Citadel.citadelWinter.CitadelWinter;
-import Template.template.Template;
 import org.bukkit.Server;
 import org.bukkit.event.Listener;
 

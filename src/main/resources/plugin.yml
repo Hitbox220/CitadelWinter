@@ -1,7 +1,19 @@
-name: Citadel Winter
+name: CitadelWinter
 version: '1.0-SNAPSHOT'
 main: Citadel.citadelWinter.CitadelWinter
 api-version: '1.21'
 prefix: CitadelWinter
 authors: [ Hitbox ]
 description: Winter plugin for Citadel
+
+commands:
+  temperature:
+    description: Команда для редактирования температуры игроков
+    usage:
+      /test <set | reset | get> <player> <(value)>
+    permission: citadel.temperature
+  test:
+    description: Тестовая команда
+    usage:
+      /test <arg1> <arg2>
+    permission: citadel.test
