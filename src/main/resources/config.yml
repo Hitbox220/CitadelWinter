@@ -1,5 +1,42 @@
 enableMessage: Citadel winter is enabled!
 freezeDamageTickMultiplier: 1
+maxFreezeTick: 150
+coldPerTick: -0.002
+changingTemperatureMultiplier: 1
+insulatedArmorMultiplier: 0.9
+
+blizzard:
+  ventus:
+    cold: 1
+    fade: 1
+    allowFire: true
+  frigus:
+    cold: 2
+    fade: 1
+    allowFire: true
+  nix:
+    cold: 3
+    fade: 2
+    allowFire: true
+  glacies:
+    cold: 4
+    fade: 3
+    allowFire: false
+  tempestas:
+    cold: 8
+    fade: 8
+    allowFire: false
+
+height:
+  groundHeatLowest: 40
+  groundHeatHighest: 63
+
+tickRates:
+  heartBeat: 1
+  coldDamage: 40
+  updateTemperature: 1
+  manageTemperature: 1
+  blocksFade: 1
 
 heartBeat:
   minVolume: 0.1
@@ -22,8 +59,15 @@ colors:
   cold: 45507d
   freeze: 3b3b5b
 
+# Время в минутах
 blocks:
+  maxRadius: 13
+  heatItem: 0.0025
   TORCH:
+    radius: 5
+    heat: 0.01
+    fadeTime: 5
+  WALL_TORCH:
     radius: 5
     heat: 0.01
     fadeTime: 5
@@ -31,19 +75,34 @@ blocks:
     radius: 4
     heat: 0.008
     fadeTime: 10
+  SOUL_WALL_TORCH:
+    radius: 4
+    heat: 0.008
+    fadeTime: 10
   LANTERN:
     radius: 6
     heat: 0.005
-    fadeTime: -1
+    fadeTime: 0
   SOUL_LANTERN:
     radius: 5
     heat: 0.004
-    fadeTime: -1
+    fadeTime: 0
   CAMPFIRE:
     radius: 13
     heat: 0.1
     fadeTime: 10
+    interactionOffset: 0.4
   SOUL_CAMPFIRE:
     radius: 12
     heat: 0.08
     fadeTime: 20
+
+#Время в тиках
+fuel:
+  STICK: 600
+  LOG: 6000
+  STEM: 6100
+  WOOD: 8000
+  HYPHAE: 8100
+  PLANKS: 1500
+  COAL: 6500

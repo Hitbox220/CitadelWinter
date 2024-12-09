@@ -1,16 +1,16 @@
 package Citadel.citadelWinter;
 
+import Citadel.citadelWinter.classes.TemperatureData;
 import Citadel.citadelWinter.commands.TemperatureCommand;
 import Citadel.citadelWinter.commands.TestCommand;
-import Citadel.citadelWinter.events.TestEvent;
+import Citadel.citadelWinter.events.WinterBlockEvents;
+import Citadel.citadelWinter.events.WinterPlayerEvents;
 import Citadel.citadelWinter.recipes.Recipes;
-import Citadel.citadelWinter.tasks.ColdDamageRunnable;
-import Citadel.citadelWinter.tasks.HeartBeatRunnable;
-import Citadel.citadelWinter.tasks.ManageTemperatureRunnable;
+import Citadel.citadelWinter.tasks.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static Citadel.citadelWinter.classes.TemperatureData.heartTickRate;
+import static Citadel.citadelWinter.classes.TemperatureData.*;
 
 public final class CitadelWinter extends JavaPlugin {
     private static CitadelWinter instance;
@@ -24,6 +24,7 @@ public final class CitadelWinter extends JavaPlugin {
 //        saveDefaultConfig();
         getComponentLogger().info(config.getString("enableMessage"));
 
+        TemperatureData.initialize();
         setEvents();
         setCommands();
         setRecipes();
@@ -36,22 +37,29 @@ public final class CitadelWinter extends JavaPlugin {
     }
 
     private void setEvents(){
-        new TestEvent();
+        new WinterBlockEvents();
+        new WinterPlayerEvents();
     }
     private void setCommands(){
         new TestCommand();
         new TemperatureCommand();
     }
     private void setRecipes(){
-        Recipes.Initialize();
+        Recipes.addRecipes();
     }
     private void setTasks(){
-        ColdDamageRunnable coldDamageRunnable = new ColdDamageRunnable();
-        coldDamageRunnable.runTaskTimer(this, 0, 40);
-        HeartBeatRunnable heartBeatRunnable = new HeartBeatRunnable();
-        heartBeatRunnable.runTaskTimer(this, 0, heartTickRate);
-        ManageTemperatureRunnable manageTemperatureRunnable = new ManageTemperatureRunnable();
-        manageTemperatureRunnable.runTaskTimer(this, 0, 1);
+        ColdDamage coldDamage = new ColdDamage();
+        coldDamage.runTaskTimer(this, 0, coldDamageTickRate);
+        HeartBeat heartBeat = new HeartBeat();
+        heartBeat.runTaskTimer(this, 0, heartTickRate);
+        ManageTemperature manageTemperature = new ManageTemperature();
+        manageTemperature.runTaskTimer(this, 0, manageTemperatureTickRate);
+        UpdateTemperature updateTemperature = new UpdateTemperature();
+        updateTemperature.runTaskTimer(this, 0, updateTemperatureTickRate);
+        FadeBlocks fadeBlocks = new FadeBlocks();
+        fadeBlocks.runTaskTimer(this, 0, blocksFadeTickRate);
+        RepairMarkers repairMarkers = new RepairMarkers();
+        repairMarkers.runTaskTimer(this, 0, 100);
     }
 
     public static CitadelWinter getInstance(){

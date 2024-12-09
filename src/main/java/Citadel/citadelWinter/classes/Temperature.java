@@ -2,18 +2,25 @@ package Citadel.citadelWinter.classes;
 
 import Citadel.citadelWinter.CitadelWinter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.NamespacedKey;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Interaction;
+import org.bukkit.entity.Marker;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 import static Citadel.citadelWinter.classes.TemperatureData.*;
+import static java.lang.Math.abs;
 
 public class Temperature {
-    public static final NamespacedKey temperatureKey = new NamespacedKey(CitadelWinter.getInstance(), "temperature");
-    public static final NamespacedKey thermometerKey = new NamespacedKey(CitadelWinter.getInstance(), "thermometer");
     public static Map<UUID, Integer> damageTickMap = new HashMap<>();
     public static Map<UUID, Integer> heartBeatPlayers = new HashMap<>();
 
@@ -25,13 +32,10 @@ public class Temperature {
     public static void setPlayerTemperature(Player player, float temperature){
         player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, temperature);
     }
-
-    public static void managePlayersTemperature(){
-        for(Player player : server.getOnlinePlayers()) {
-            if (player.isDead()) return;
-            float playerTemperature = getPlayerTemperature(player);
-            actByPlayerItems(player, playerTemperature);
-            actByPlayerTemperature(player, playerTemperature);
+    public static void addPlayerTemperature(Player player, float temperature){
+        float newTemperature = getPlayerTemperature(player) + temperature;
+        if (newTemperature <= defaultTemperature){
+            player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, newTemperature * changingTemperatureMultiplier);
         }
     }
 
@@ -64,7 +68,7 @@ public class Temperature {
         }
     }
 
-    private static String calculateColorByTemperature(float temperature){
+    public static String calculateColorByTemperature(float temperature){
         if (temperature < freezeTemperature){
             return freezeColor;
         }else if (temperature < coldTemperature){
@@ -76,5 +80,53 @@ public class Temperature {
         }else{
             return heatColor;
         }
+    }
+
+    public static void getChunkBlizzard(Chunk chunk){
+
+    }
+
+    /**
+     * Возвращает расстояние между двумя Location не в декартовой системе, а по количеству блоков,
+     * которое нужно пройти, чтобы перейти из одной точки в другую
+     */
+    public static float distanceDiscrete(Location a, Location b){
+        Location distance = a.subtract(b);
+        return (float) (abs(distance.getX()) + abs(distance.getY()) + abs(distance.getZ()));
+    }
+
+    public static @Nullable Marker getBlockMarker(Block block){
+        Marker returnMarker = null;
+        for (Marker marker : block.getLocation().getNearbyEntitiesByType(Marker.class, 0.1)){
+            if (returnMarker == null){
+                returnMarker = marker;
+            } else {
+                CitadelWinter.getInstance().getComponentLogger().warn(String.format(
+                        "Wrong marker at %s %s %s",
+                        marker.getLocation().getX(), marker.getLocation().getY(), marker.getLocation().getZ()
+                ));
+                marker.remove();
+            }
+        }
+        return returnMarker;
+    }
+
+    public static @Nullable Interaction getBlockInteraction(Block block){
+        Interaction returnInteraction = null;
+        for (Interaction interaction : block.getLocation().getNearbyEntitiesByType(Interaction.class, 0.5)){
+            Location distance = interaction.getLocation().subtract(0.5, campfireInterOffset, 0.5).subtract(block.getLocation());
+            if (distance.toVector().isZero()){
+                if (returnInteraction == null){
+                    returnInteraction = interaction;
+                } else {
+                    CitadelWinter.getInstance().getComponentLogger().warn(String.format(
+                            "Wrong interaction at %s %s %s",
+                            interaction.getLocation().getX(), interaction.getLocation().getY(), interaction.getLocation().getZ()
+                    ));
+                    interaction.remove();
+                }
+            }
+        }
+        return returnInteraction;
     }
 }

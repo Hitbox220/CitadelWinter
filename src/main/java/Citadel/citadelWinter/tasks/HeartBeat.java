@@ -11,7 +11,7 @@ import java.util.UUID;
 import static Citadel.citadelWinter.classes.Temperature.*;
 import static Citadel.citadelWinter.classes.TemperatureData.*;
 
-public class HeartBeatRunnable extends BukkitRunnable {
+public class HeartBeat extends BukkitRunnable {
     private static final Server server = CitadelWinter.getInstance().getServer();
 
     @Override
@@ -30,7 +30,6 @@ public class HeartBeatRunnable extends BukkitRunnable {
             if (heartBeatPlayers.get(uuid) >= calculatePeriodByTemperature(playerTemperature)){
                 heartBeatPlayers.put(uuid, 0);
                 player.playSound(player, Sound.ENTITY_WARDEN_HEARTBEAT, calculateVolumeByTemperature(playerTemperature), 0.1F);
-                player.sendMessage(String.valueOf(calculatePeriodByTemperature(playerTemperature)));
             }else{
                 heartBeatPlayers.put(uuid, heartBeatPlayers.get(uuid) + heartTickRate);
             }

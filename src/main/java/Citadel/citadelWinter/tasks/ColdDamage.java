@@ -12,7 +12,7 @@ import java.util.UUID;
 import static Citadel.citadelWinter.classes.Temperature.damageTickMap;
 import static Citadel.citadelWinter.classes.TemperatureData.freezeDamageTickMultiplier;
 
-public class ColdDamageRunnable extends BukkitRunnable {
+public class ColdDamage extends BukkitRunnable {
     private static final Server server = CitadelWinter.getInstance().getServer();
     @Override
     public void run() {
