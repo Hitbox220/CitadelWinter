@@ -5,9 +5,7 @@ import Citadel.citadelWinter.CitadelWinter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static Citadel.citadelWinter.CitadelWinter.config;
 
@@ -16,6 +14,7 @@ public class TemperatureData {
     public static final NamespacedKey thermometerKey = new NamespacedKey(CitadelWinter.getInstance(), "thermometer");
     public static final NamespacedKey heatBlockTicksKey = new NamespacedKey(CitadelWinter.getInstance(), "heatBlockTicks");
     public static final NamespacedKey heatBlockTypeKey = new NamespacedKey(CitadelWinter.getInstance(), "heatBlockType");
+    public static final NamespacedKey ignisChunkKey = new NamespacedKey(CitadelWinter.getInstance(), "ignisChunk");
 
     public static final NamespacedKey insulatedArmorKey = new NamespacedKey(CitadelWinter.getInstance(), "insulatedArmor");
 
@@ -47,6 +46,7 @@ public class TemperatureData {
     public static int updateTemperatureTickRate = config.getInt("tickRates.updateTemperature");
     public static int manageTemperatureTickRate = config.getInt("tickRates.manageTemperature");
     public static int blocksFadeTickRate = config.getInt("tickRates.blocksFade");
+    public static int blizzardDamageTickRate = config.getInt("tickRates.blizzardDamage");
 
     public static Map<String, HeatBlockData> heatBlocksData = new HashMap<>();
     public static float campfireInterOffset = (float) config.getDouble("blocks.CAMPFIRE.interactionOffset");
@@ -56,6 +56,7 @@ public class TemperatureData {
 
     public static float coldPerPeriod = (float) config.getDouble("coldPerTick") * updateTemperatureTickRate;
     public static float changingTemperatureMultiplier = (float) config.getDouble("changingTemperatureMultiplier");
+    public static float netherHeat = (float) config.getDouble("netherHeat");
 
     public static float groundHeatLowest = config.getInt("height.groundHeatLowest");
     public static float groundHeatHighest = config.getInt("height.groundHeatHighest");
@@ -64,7 +65,9 @@ public class TemperatureData {
     public static Map<String, Integer> fuel = new HashMap<>();
 
     public static BlizzardData[] blizzardsData = new BlizzardData[5];
-
+    public static int blizzardRadiusMultiplier = config.getInt("blizzard.radiusMultiplier");
+    public static int maxBlizzard = config.getInt("blizzard.maxBlizzard");
+    public static Set<IgnisData> ignisChunks = new HashSet<>();
 
     public static void initialize(){
         ConfigurationSection blocksSection = config.getConfigurationSection("blocks");
@@ -81,14 +84,15 @@ public class TemperatureData {
             fuel.put(fuelName, fuelSection.getInt(fuelName));
         }
 
-        ConfigurationSection blizzardSection = config.getConfigurationSection("blizzard");
+        ConfigurationSection blizzardSection = config.getConfigurationSection("blizzard.chunks");
         int blizzardId = 0;
         for (String blizzardName : Objects.requireNonNull(blizzardSection).getKeys(false)){
             blizzardsData[blizzardId] = new BlizzardData(
                     blizzardSection.getString(blizzardName + ".type"),
                     blizzardSection.getInt(blizzardName + ".cold"),
                     blizzardSection.getInt(blizzardName + ".fade"),
-                    blizzardSection.getBoolean(blizzardName + ".allowFire")
+                    blizzardSection.getBoolean(blizzardName + ".allowFire"),
+                    blizzardSection.getInt(blizzardName + ".damage")
             );
             blizzardId += 1;
         }
@@ -113,11 +117,24 @@ public class TemperatureData {
         public int cold;
         public int fade;
         public boolean allowFire;
-        public BlizzardData(String type, int cold, int fade, boolean allowFire){
+        public int damage;
+        public BlizzardData(String type, int cold, int fade, boolean allowFire, int damage){
             this.type = type;
             this.cold = cold;
             this.fade = fade;
             this.allowFire = allowFire;
+            this.damage = damage;
+        }
+    }
+
+    public static class IgnisData {
+        public int strength;
+        public int x;
+        public int z;
+        public IgnisData (int strength, int x, int z){
+            this.strength = strength;
+            this.x = x;
+            this.z = z;
         }
     }
 }

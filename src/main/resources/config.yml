@@ -2,30 +2,39 @@ enableMessage: Citadel winter is enabled!
 freezeDamageTickMultiplier: 1
 maxFreezeTick: 150
 coldPerTick: -0.002
+netherHeat: 1
 changingTemperatureMultiplier: 1
 insulatedArmorMultiplier: 0.9
 
 blizzard:
-  ventus:
-    cold: 1
-    fade: 1
-    allowFire: true
-  frigus:
-    cold: 2
-    fade: 1
-    allowFire: true
-  nix:
-    cold: 3
-    fade: 2
-    allowFire: true
-  glacies:
-    cold: 4
-    fade: 3
-    allowFire: false
-  tempestas:
-    cold: 8
-    fade: 8
-    allowFire: false
+  radiusMultiplier: 64
+  maxBlizzard: 4
+  chunks:
+    ventus:
+      cold: 1
+      fade: 1
+      allowFire: true
+      damage: 0
+    frigus:
+      cold: 2
+      fade: 2
+      allowFire: true
+      damage: 0
+    nix:
+      cold: 4
+      fade: 8
+      allowFire: true
+      damage: 1
+    glacies:
+      cold: 8
+      fade: 8
+      allowFire: false
+      damage: 4
+    tempestas:
+      cold: 16
+      fade: 16
+      allowFire: false
+      damage: 8
 
 height:
   groundHeatLowest: 40
@@ -37,6 +46,7 @@ tickRates:
   updateTemperature: 1
   manageTemperature: 1
   blocksFade: 1
+  blizzardDamage: 20
 
 heartBeat:
   minVolume: 0.1

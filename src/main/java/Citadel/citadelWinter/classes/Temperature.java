@@ -34,7 +34,7 @@ public class Temperature {
     }
     public static void addPlayerTemperature(Player player, float temperature){
         float newTemperature = getPlayerTemperature(player) + temperature;
-        if (newTemperature <= defaultTemperature){
+        if (newTemperature <= defaultTemperature || temperature < 0){
             player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, newTemperature * changingTemperatureMultiplier);
         }
     }
@@ -88,11 +88,24 @@ public class Temperature {
 
     /**
      * Возвращает расстояние между двумя Location не в декартовой системе, а по количеству блоков,
-     * которое нужно пройти, чтобы перейти из одной точки в другую
+     * которое нужно пройти, чтобы перейти из одной точки в другую.
+     * Задает плоский ромб или объемный октаэдр
      */
     public static float distanceDiscrete(Location a, Location b){
         Location distance = a.subtract(b);
         return (float) (abs(distance.getX()) + abs(distance.getY()) + abs(distance.getZ()));
+    }
+
+    /** Пузырьковая сортировка 3 координат расстояния между точками.
+     * Задает куб
+     **/
+    public static float getMaximumDistanceAxis(Location a, Location b) {
+        Location distance = a.subtract(b);
+        float x = (float) distance.x();
+        float y = (float) distance.y();
+        float z = (float) distance.z();
+        float xY = Math.max(x, y);
+        return Math.max(z, xY);
     }
 
     public static @Nullable Marker getBlockMarker(Block block){

@@ -22,6 +22,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import static Citadel.citadelWinter.classes.Blizzard.calculateChunkBlizzard;
 import static Citadel.citadelWinter.classes.Temperature.getBlockInteraction;
 import static Citadel.citadelWinter.classes.Temperature.getBlockMarker;
 import static Citadel.citadelWinter.classes.TemperatureData.*;
@@ -43,8 +44,12 @@ public class WinterBlockEvents extends AbstractEvent{
                 } else {
                     entity = block.getWorld().spawn(block.getLocation(), Marker.class);
                 }
+                int blizzardType = calculateChunkBlizzard(block.getLocation().getChunk());
                 if (heatBlocksData.get(heatBlockName).fadeTime != 0){
                     entity.getPersistentDataContainer().set(heatBlockTicksKey, PersistentDataType.INTEGER, heatBlocksData.get(heatBlockName).fadeTime);
+                }
+                if (!blizzardsData[blizzardType].allowFire) {
+                    entity.getPersistentDataContainer().set(heatBlockTicksKey, PersistentDataType.INTEGER, 0);
                 }
                 entity.getPersistentDataContainer().set(heatBlockTypeKey, PersistentDataType.STRING, heatBlockName);
             }
@@ -72,6 +77,7 @@ public class WinterBlockEvents extends AbstractEvent{
             onBlockDestroy(event.getToBlock());
         }
     }
+
     @EventHandler
     public void onBlockFade(BlockFadeEvent event) {
         if (event.getBlock().getType() == Material.ICE) {

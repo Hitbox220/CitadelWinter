@@ -12,6 +12,11 @@ commands:
     usage:
       /test <set | reset | get> <player> <(value)>
     permission: citadel.temperature
+  blizzard:
+    description: Команда для редактирования буранов
+    usage:
+      /blizzard <ignis | blizzard> <various>
+    permission: citadel.blizzard
   test:
     description: Тестовая команда
     usage:

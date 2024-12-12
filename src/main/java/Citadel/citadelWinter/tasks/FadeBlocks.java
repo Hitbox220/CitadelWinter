@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static Citadel.citadelWinter.classes.Blizzard.calculateChunkBlizzard;
 import static Citadel.citadelWinter.classes.Temperature.addPlayerTemperature;
 import static Citadel.citadelWinter.classes.TemperatureData.*;
 
@@ -33,15 +34,17 @@ public class FadeBlocks extends BukkitRunnable {
                     Lightable blockData = (Lightable) heatBlock.getBlockData();
                     blockData.setLit(false);
                     heatBlock.setBlockData(blockData);
-                } else {
+                } else if (heatBlock.getType().name().contains("TORCH")) {
                     heatBlock.setType(Material.AIR);
                 }
                 heatBlock.getWorld().playSound(heatBlock.getLocation(), Sound.EVENT_MOB_EFFECT_RAID_OMEN, 0.1F, 0.1F);
                 heatBlock.getWorld().spawnParticle(Particle.TRIAL_OMEN, heatBlock.getLocation().add(0.5, 0.5, 0.5), 10);
                 heatBlockMarker.remove();
             } else {
-                heatBlockMarker.getPersistentDataContainer().set(heatBlockTicksKey, PersistentDataType.INTEGER,
-                        heatBlockMarker.getPersistentDataContainer().get(heatBlockTicksKey, PersistentDataType.INTEGER) - blocksFadeTickRate * 40);
+                int ticks = heatBlockMarker.getPersistentDataContainer().get(heatBlockTicksKey, PersistentDataType.INTEGER);
+                int blizzardType = calculateChunkBlizzard(heatBlockMarker.getLocation().getChunk());
+                ticks -= blocksFadeTickRate * blizzardsData[blizzardType].fade;
+                heatBlockMarker.getPersistentDataContainer().set(heatBlockTicksKey, PersistentDataType.INTEGER, ticks);
             }
         }
     }

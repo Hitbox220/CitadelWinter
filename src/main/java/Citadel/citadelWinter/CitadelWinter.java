@@ -1,15 +1,18 @@
 package Citadel.citadelWinter;
 
 import Citadel.citadelWinter.classes.TemperatureData;
+import Citadel.citadelWinter.commands.BlizzardCommand;
 import Citadel.citadelWinter.commands.TemperatureCommand;
 import Citadel.citadelWinter.commands.TestCommand;
 import Citadel.citadelWinter.events.WinterBlockEvents;
 import Citadel.citadelWinter.events.WinterPlayerEvents;
 import Citadel.citadelWinter.recipes.Recipes;
 import Citadel.citadelWinter.tasks.*;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import static Citadel.citadelWinter.classes.Blizzard.getIgnisData;
 import static Citadel.citadelWinter.classes.TemperatureData.*;
 
 public final class CitadelWinter extends JavaPlugin {
@@ -29,6 +32,8 @@ public final class CitadelWinter extends JavaPlugin {
         setCommands();
         setRecipes();
         setTasks();
+
+        getIgnisData();
     }
 
     @Override
@@ -43,6 +48,7 @@ public final class CitadelWinter extends JavaPlugin {
     private void setCommands(){
         new TestCommand();
         new TemperatureCommand();
+        new BlizzardCommand();
     }
     private void setRecipes(){
         Recipes.addRecipes();
