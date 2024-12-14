@@ -15,6 +15,8 @@ public class TemperatureData {
     public static final NamespacedKey heatBlockTicksKey = new NamespacedKey(CitadelWinter.getInstance(), "heatBlockTicks");
     public static final NamespacedKey heatBlockTypeKey = new NamespacedKey(CitadelWinter.getInstance(), "heatBlockType");
     public static final NamespacedKey ignisChunkKey = new NamespacedKey(CitadelWinter.getInstance(), "ignisChunk");
+    public static final NamespacedKey furnaceOnKey = new NamespacedKey(CitadelWinter.getInstance(), "furnaceOn");
+    public static final NamespacedKey phantomSmeltingKey = new NamespacedKey(CitadelWinter.getInstance(), "phantomSmelting");
 
     public static final NamespacedKey insulatedArmorKey = new NamespacedKey(CitadelWinter.getInstance(), "insulatedArmor");
 
@@ -50,8 +52,8 @@ public class TemperatureData {
 
     public static Map<String, HeatBlockData> heatBlocksData = new HashMap<>();
     public static float campfireInterOffset = (float) config.getDouble("blocks.CAMPFIRE.interactionOffset");
-    public static int maxHeatBlockRadius = config.getInt("blocks.maxRadius");
-    public static float heatByItem = (float) config.getDouble("blocks.heatItem");
+    public static int maxHeatBlockRadius = config.getInt("heat.maxRadius");
+    public static float heatByItem = (float) config.getDouble("heat.heatItem");
     public static float insulatedArmorMultiplier = (float) config.getDouble("insulatedArmorMultiplier");
 
     public static float coldPerPeriod = (float) config.getDouble("coldPerTick") * updateTemperatureTickRate;

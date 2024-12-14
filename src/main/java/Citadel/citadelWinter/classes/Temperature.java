@@ -33,9 +33,11 @@ public class Temperature {
         player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, temperature);
     }
     public static void addPlayerTemperature(Player player, float temperature){
-        float newTemperature = getPlayerTemperature(player) + temperature;
+        float newTemperature = getPlayerTemperature(player) + temperature * changingTemperatureMultiplier;
         if (newTemperature <= defaultTemperature || temperature < 0){
-            player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, newTemperature * changingTemperatureMultiplier);
+            player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, newTemperature);
+        } else {
+            player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, defaultTemperature);
         }
     }
 

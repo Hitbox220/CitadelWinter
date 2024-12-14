@@ -8,7 +8,6 @@ import Citadel.citadelWinter.events.WinterBlockEvents;
 import Citadel.citadelWinter.events.WinterPlayerEvents;
 import Citadel.citadelWinter.recipes.Recipes;
 import Citadel.citadelWinter.tasks.*;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -62,10 +61,10 @@ public final class CitadelWinter extends JavaPlugin {
         manageTemperature.runTaskTimer(this, 0, manageTemperatureTickRate);
         UpdateTemperature updateTemperature = new UpdateTemperature();
         updateTemperature.runTaskTimer(this, 0, updateTemperatureTickRate);
-        FadeBlocks fadeBlocks = new FadeBlocks();
-        fadeBlocks.runTaskTimer(this, 0, blocksFadeTickRate);
-        RepairMarkers repairMarkers = new RepairMarkers();
-        repairMarkers.runTaskTimer(this, 0, 100);
+        UpdateHeatBlocks updateHeatBlocks = new UpdateHeatBlocks();
+        updateHeatBlocks.runTaskTimer(this, 0, blocksFadeTickRate);
+//        RepairMarkers repairMarkers = new RepairMarkers();
+//        repairMarkers.runTaskTimer(this, 0, 100);
     }
 
     public static CitadelWinter getInstance(){

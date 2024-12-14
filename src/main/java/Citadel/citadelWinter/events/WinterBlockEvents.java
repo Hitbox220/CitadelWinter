@@ -34,7 +34,9 @@ public class WinterBlockEvents extends AbstractEvent{
         if (event.isCancelled()) return;
         Block block = event.getBlockPlaced();
         String blockName = block.getType().name();
+//        CitadelWinter.getInstance().getComponentLogger().info(blockName);
         for (String heatBlockName : heatBlocksData.keySet()){
+//            CitadelWinter.getInstance().getComponentLogger().info(heatBlockName);
             if (blockName.equals(heatBlockName)){
                 Entity entity;
                 if (heatBlockName.contains("CAMPFIRE")){
@@ -44,6 +46,11 @@ public class WinterBlockEvents extends AbstractEvent{
                 } else {
                     entity = block.getWorld().spawn(block.getLocation(), Marker.class);
                 }
+
+                if (blockName.contains("FURNACE") || blockName.equals("SMOKER")){
+                    entity.getPersistentDataContainer().set(furnaceOnKey, PersistentDataType.BOOLEAN, false);
+                }
+
                 int blizzardType = calculateChunkBlizzard(block.getLocation().getChunk());
                 if (heatBlocksData.get(heatBlockName).fadeTime != 0){
                     entity.getPersistentDataContainer().set(heatBlockTicksKey, PersistentDataType.INTEGER, heatBlocksData.get(heatBlockName).fadeTime);
@@ -52,9 +59,12 @@ public class WinterBlockEvents extends AbstractEvent{
                     entity.getPersistentDataContainer().set(heatBlockTicksKey, PersistentDataType.INTEGER, 0);
                 }
                 entity.getPersistentDataContainer().set(heatBlockTypeKey, PersistentDataType.STRING, heatBlockName);
+//                CitadelWinter.getInstance().getComponentLogger().info(entity.getPersistentDataContainer().get(heatBlockTypeKey, PersistentDataType.STRING));
             }
         }
     }
+
+    /*
     @EventHandler
     public void onBlockBreakEvent (BlockBreakEvent event){
         if (!event.getBlock().getWorld().getName().equals("world")) return;
@@ -118,6 +128,7 @@ public class WinterBlockEvents extends AbstractEvent{
             }
         }
     }
+    */
 
     @EventHandler
     public void onPlayerInteractCampfire (PlayerInteractEntityEvent event){

@@ -69,10 +69,12 @@ colors:
   cold: 45507d
   freeze: 3b3b5b
 
+heat:
+  maxRadius: 25
+  heatItem: 0.0025
+
 # Время в минутах
 blocks:
-  maxRadius: 13
-  heatItem: 0.0025
   TORCH:
     radius: 5
     heat: 0.01
@@ -106,6 +108,18 @@ blocks:
     radius: 12
     heat: 0.08
     fadeTime: 20
+  FURNACE:
+    radius: 20
+    heat: 0.5
+    fadeTime: 0
+  BLAST_FURNACE:
+    radius: 25
+    heat: 0.5
+    fadeTime: 0
+  SMOKER:
+    radius: 22
+    heat: 0.5
+    fadeTime: 0
 
 #Время в тиках
 fuel:
