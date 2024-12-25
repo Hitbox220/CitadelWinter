@@ -22,18 +22,21 @@ import static Citadel.citadelWinter.classes.TemperatureData.*;
 
 public class Recipes {
     private static final Server server = CitadelWinter.getInstance().getServer();
+    public static ItemStack thermometerItem;
+    public static ItemStack thermalImagerItem;
 
     private static List<CraftingRecipe> initializeRecipes(){
         List<CraftingRecipe> recipes = new ArrayList<CraftingRecipe>();
 
         // Thermometer
-        ItemStack thermometerItem = new ItemStack(Material.STICK);
+        thermometerItem = new ItemStack(Material.STICK);
         ItemMeta thermometerMeta = thermometerItem.getItemMeta();
         thermometerMeta.getPersistentDataContainer().set(thermometerKey, PersistentDataType.BOOLEAN, true);
         List<Component> lore = new ArrayList<>();
         lore.add(MiniMessage.miniMessage().deserialize(String.format("%sThermometer 3000", infoColor)));
         thermometerMeta.lore(lore);
         thermometerMeta.setMaxStackSize(1);
+        thermometerMeta.displayName(MiniMessage.miniMessage().deserialize("Термометр"));
         thermometerItem.setItemMeta(thermometerMeta);
 
         ShapedRecipe thermometerRecipe = new ShapedRecipe(thermometerKey, thermometerItem);
@@ -42,6 +45,14 @@ public class Recipes {
         thermometerRecipe.setIngredient('B', Material.IRON_NUGGET);
         thermometerRecipe.setCategory(CraftingBookCategory.EQUIPMENT);
         recipes.add(thermometerRecipe);
+
+        // Thermal Imager
+        thermalImagerItem = new ItemStack(Material.STICK);
+        ItemMeta thermalImagerMeta = thermalImagerItem.getItemMeta();
+        thermalImagerMeta.getPersistentDataContainer().set(thermalImagerKey, PersistentDataType.BOOLEAN, true);
+        thermalImagerMeta.setMaxStackSize(1);
+        thermalImagerMeta.displayName(MiniMessage.miniMessage().deserialize("Тепловизор"));
+        thermalImagerItem.setItemMeta(thermalImagerMeta);
 
         return recipes;
     }

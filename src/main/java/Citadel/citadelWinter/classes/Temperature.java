@@ -1,14 +1,10 @@
 package Citadel.citadelWinter.classes;
 
 import Citadel.citadelWinter.CitadelWinter;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Marker;
 import org.bukkit.entity.Player;
@@ -26,47 +22,18 @@ public class Temperature {
 
     private static final Server server = CitadelWinter.getInstance().getServer();
 
-    public static float getPlayerTemperature(Player player){
-        return player.getPersistentDataContainer().getOrDefault(temperatureKey, PersistentDataType.FLOAT, defaultTemperature);
+    public static float getEntityTemperature(Entity entity){
+        return entity.getPersistentDataContainer().getOrDefault(temperatureKey, PersistentDataType.FLOAT, defaultTemperature);
     }
-    public static void setPlayerTemperature(Player player, float temperature){
-        player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, temperature);
+    public static void setEntityTemperature(Entity entity, float temperature){
+        entity.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, temperature);
     }
-    public static void addPlayerTemperature(Player player, float temperature){
-        float newTemperature = getPlayerTemperature(player) + temperature * changingTemperatureMultiplier;
+    public static void addEntityTemperature(Entity entity, float temperature){
+        float newTemperature = getEntityTemperature(entity) + temperature * changingTemperatureMultiplier;
         if (newTemperature <= defaultTemperature || temperature < 0){
-            player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, newTemperature);
+            entity.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, newTemperature);
         } else {
-            player.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, defaultTemperature);
-        }
-    }
-
-    public static void actByPlayerTemperature(Player player , float playerTemperature){
-        if (playerTemperature < freezeTemperature){
-            player.setFreezeTicks(150);
-            if (!damageTickMap.containsKey(player.getUniqueId())){
-                damageTickMap.put(player.getUniqueId(), 0);
-            }
-        }else{
-            damageTickMap.remove(player.getUniqueId());
-            if (playerTemperature < coldTemperature){
-                player.setFreezeTicks((int) ((coldAmplitude - playerTemperature) * freezeTicksPerDegree));
-                if (!heartBeatPlayers.containsKey(player.getUniqueId())){
-                    heartBeatPlayers.put(player.getUniqueId(), 0);
-                }
-            }else{
-                heartBeatPlayers.remove(player.getUniqueId());
-            }
-        }
-    }
-
-    public static void actByPlayerItems(Player player, float playerTemperature){
-        if (player.getInventory().getItemInMainHand().getPersistentDataContainer().has(thermometerKey)
-            || player.getInventory().getItemInOffHand().getPersistentDataContainer().has(thermometerKey)){
-            player.sendActionBar(
-                    MiniMessage.miniMessage().deserialize(
-                            String.format("%sТемпература: %s%.1f°C", infoColor, calculateColorByTemperature(playerTemperature), playerTemperature)
-            ));
+            entity.getPersistentDataContainer().set(temperatureKey, PersistentDataType.FLOAT, defaultTemperature);
         }
     }
 
@@ -83,11 +50,7 @@ public class Temperature {
             return heatColor;
         }
     }
-
-    public static void getChunkBlizzard(Chunk chunk){
-
-    }
-
+    
     /**
      * Возвращает расстояние между двумя Location не в декартовой системе, а по количеству блоков,
      * которое нужно пройти, чтобы перейти из одной точки в другую.

@@ -3,8 +3,12 @@ freezeDamageTickMultiplier: 1
 maxFreezeTick: 150
 coldPerTick: -0.002
 netherHeat: 1
-changingTemperatureMultiplier: 1
+changingTemperatureMultiplier: 30
 insulatedArmorMultiplier: 0.9
+
+storm:
+  cold: 2
+  fade: 2
 
 blizzard:
   radiusMultiplier: 64

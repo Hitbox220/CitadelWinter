@@ -3,6 +3,7 @@ package Citadel.citadelWinter.commands;
 import Citadel.citadelWinter.CitadelWinter;
 import com.google.common.collect.Lists;
 import org.bukkit.Chunk;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
@@ -57,24 +58,36 @@ public class BlizzardCommand extends AbstractCommand {
                 Chunk chunk;
                 if (args.length == 2) {
                     chunk = ((Player) sender).getLocation().getChunk();
-                    sender.sendMessage(String.format("Blizzard level: %d", calculateChunkBlizzard(chunk)));
+                    sender.sendMessage(String.format("Blizzard level: %s", calculateChunkBlizzard(chunk).type));
                 } else {
                     int x = Integer.parseInt(args[2]);
                     int z = Integer.parseInt(args[3]);
-                    sender.sendMessage(String.format("Blizzard level: %d", calculateChunkBlizzardCoo(x, z)));
+                    sender.sendMessage(String.format("Blizzard level: %s", calculateChunkBlizzardCoo(x, z).type));
                 }
+            }
+        } else if (args[0].equalsIgnoreCase("storm")){
+            if (args[1].equalsIgnoreCase("run")) {
+                World overWorld = CitadelWinter.getInstance().getServer().getWorld("world");
+                assert overWorld != null;
+                overWorld.getPersistentDataContainer().set(stormKey, PersistentDataType.INTEGER, Integer.parseInt(args[2]));
+            } else if (args[1].equalsIgnoreCase("stop")) {
+                World overWorld = CitadelWinter.getInstance().getServer().getWorld("world");
+                assert overWorld != null;
+                overWorld.getPersistentDataContainer().remove(stormKey);
             }
         }
     }
 
     @Override
     public List<String> complete(CommandSender sender, String[] args) {
-        if(args.length == 1) return Lists.newArrayList("ignis", "blizzard");
+        if(args.length == 1) return Lists.newArrayList("ignis", "blizzard", "storm");
         if(args.length == 2){
             if (args[0].equalsIgnoreCase("ignis")){
                 return Lists.newArrayList("add", "remove", "get");
             } else if (args[0].equalsIgnoreCase("blizzard")){
                 return Lists.newArrayList("get");
+            } else if (args[0].equalsIgnoreCase("storm")){
+                return Lists.newArrayList("stop", "run");
             }
         }
         return Lists.newArrayList();

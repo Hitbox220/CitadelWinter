@@ -53,10 +53,10 @@ public final class CitadelWinter extends JavaPlugin {
         Recipes.addRecipes();
     }
     private void setTasks(){
-        ColdDamage coldDamage = new ColdDamage();
-        coldDamage.runTaskTimer(this, 0, coldDamageTickRate);
-        HeartBeat heartBeat = new HeartBeat();
-        heartBeat.runTaskTimer(this, 0, heartTickRate);
+//        ColdDamage coldDamage = new ColdDamage();
+//        coldDamage.runTaskTimer(this, 0, coldDamageTickRate);
+//        HeartBeat heartBeat = new HeartBeat();
+//        heartBeat.runTaskTimer(this, 0, heartTickRate);
         ManageTemperature manageTemperature = new ManageTemperature();
         manageTemperature.runTaskTimer(this, 0, manageTemperatureTickRate);
         UpdateTemperature updateTemperature = new UpdateTemperature();
